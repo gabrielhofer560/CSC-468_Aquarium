@@ -7,17 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.scene.layout.VBox;
 
 import javafx.event.ActionEvent;
 
@@ -59,8 +56,12 @@ public class Main extends Application  {
     private Scene scene;
 
 
-    ArrayList<Fish> aquarium;
-    ArrayList<Button> aquariumButtons;
+    private ArrayList<Fish> aquarium;
+    private ArrayList<Button> aquariumButtons;
+    private ArrayList<EventHandler<ActionEvent>> eventList;
+    private ArrayList<ColumnConstraints> ccList;
+    private ArrayList<RowConstraints> rcList;
+
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -111,12 +112,12 @@ public class Main extends Application  {
             }
         };
         newDayButton.setOnAction(newDayEvent);
-        vbox.getChildren().addAll(feedLabel, tf, newDayButton);
+        //vbox.getChildren().addAll(feedLabel, tf, newDayButton);
 
         /*****************************************************************************/
         // Set up CombBox
         /*****************************************************************************/
-        // Weekdays
+        // fish types
         String fish_type[] = { "Angelfish", "Goldfish" };
         // Create a combo box
         ComboBox combo_box = new ComboBox(FXCollections .observableArrayList(fish_type));
@@ -134,7 +135,7 @@ public class Main extends Application  {
         // Set on action
         combo_box.setOnAction(event);
 
-        hbox.getChildren().addAll(combo_box);
+        vbox.getChildren().addAll(combo_box,feedLabel,tf,newDayButton);
 
         /*****************************************************************************/
         // Set up the Labels about Aquarium
@@ -158,7 +159,6 @@ public class Main extends Application  {
             {
                 currSize=0;
                 remakeGridPane(currSize, stage);
-                feedLabel.setText("3x3");
             }
         };
 
@@ -168,7 +168,6 @@ public class Main extends Application  {
             {
                 currSize=1;
                 remakeGridPane(currSize, stage);
-                feedLabel.setText("4x6");
             }
         };
 
@@ -178,7 +177,6 @@ public class Main extends Application  {
             {
                 currSize=2;
                 remakeGridPane(currSize, stage);
-                feedLabel.setText("6x8");
             }
         };
         thrbythr.setOnAction(thrEvent);
@@ -247,12 +245,55 @@ public class Main extends Application  {
         if(size==0) r=c=3;
         else if(size==1) { r=4; c=5; }
         else { r=6; c=8; }
+
+
+
+        ccList = new ArrayList<ColumnConstraints>();
+        rcList = new ArrayList<RowConstraints>();
+        eventList = new ArrayList<EventHandler<ActionEvent>>();
+
+
+        for(int i=0;i<c;i++){
+            ColumnConstraints cc=new ColumnConstraints();
+            cc.setPercentWidth(100/c);
+            cc.setFillWidth(true);
+            cc.setHgrow(Priority.ALWAYS);
+            ccList.add(cc);
+        }
+        gridPane.getColumnConstraints().addAll(ccList);
+        for(int i=0;i<r;i++){
+            RowConstraints rc=new RowConstraints();
+            rc.setPercentHeight(100/r);
+            rc.setFillHeight(true);
+            rc.setVgrow(Priority.ALWAYS);
+            rcList.add(rc);
+        }
+        gridPane.getRowConstraints().addAll(rcList);
+
         for(int i=0;i<r;i++) {
             for (int j = 0; j < c; j++) {
-                aquariumButtons.add(new Button("None"));
-                gridPane.add(aquariumButtons.get(aquariumButtons.size() - 1), i, j, 1, 1);
+                Button b1 = new Button("None");
+                b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+                aquariumButtons.add(b1);
+                // action event
+/*                eventList.add(new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e)
+                    {
+                        // do something
+                    }
+                });
+                aquariumButtons.get(i*r+j).setOnAction(eventList.get(eventList.size()-1));*/
+                gridPane.add(b1, i, j, 1, 1);
             }
         }
+
+        /*GridPane gridpane = new GridPane();
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setPercentWidth(50);
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setPercentWidth(50);
+        gridPane.getColumnConstraints().addAll(column1, column2);
+        */
         //stage.setScene(scene);
         //stage.show();
     }
@@ -268,6 +309,11 @@ public class Main extends Application  {
             for (int j = 0; j < c; j++) {
                 aquariumButtons.add(new Button("None"));
                 gridPane.add(aquariumButtons.get(aquariumButtons.size() - 1), i, j, 1, 1);
+
+
+
+
+
             }
         }
         stage.setScene(scene);
