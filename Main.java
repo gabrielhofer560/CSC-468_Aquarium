@@ -158,6 +158,7 @@ public class Main extends Application  {
             {
                 currSize=0;
                 remakeGridPane(currSize, stage);
+                feedLabel.setText("3x3");
             }
         };
 
@@ -167,6 +168,7 @@ public class Main extends Application  {
             {
                 currSize=1;
                 remakeGridPane(currSize, stage);
+                feedLabel.setText("4x6");
             }
         };
 
@@ -176,9 +178,12 @@ public class Main extends Application  {
             {
                 currSize=2;
                 remakeGridPane(currSize, stage);
+                feedLabel.setText("6x8");
             }
         };
-
+        thrbythr.setOnAction(thrEvent);
+        fourbyfive.setOnAction(fourEvent);
+        sixbyeight.setOnAction(sixEvent);
         hbox.getChildren().addAll(thrbythr,fourbyfive,sixbyeight);
 
 
@@ -253,6 +258,7 @@ public class Main extends Application  {
     }
 
     public void remakeGridPane(int size,Stage stage){
+        gridPane.getChildren().clear();
         aquariumButtons.clear();
         int r, c;
         if(size==0) r=c=3;
