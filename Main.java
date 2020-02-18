@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.event.ActionEvent;
 
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /*
@@ -41,6 +42,8 @@ import java.util.ArrayList;
     Set minimum size of Stage
     https://stackoverflow.com/questions/35864241/how-to-set-minimum-size-of-container-in-fxml
 
+    Buttons
+    http://tutorials.jenkov.com/javafx/button.html#button-size
 
  */
 public class Main extends Application  {
@@ -51,8 +54,13 @@ public class Main extends Application  {
     private int aquariumHeight = 3;
     private int feedAmount = 0;
     private int DAY=0, FILLED=0, DIED=0;
+    private int currSize=0;
+    private GridPane gridPane;
+    private Scene scene;
 
-    ArrayList<Fish> Aquarium;
+
+    ArrayList<Fish> aquarium;
+    ArrayList<Button> aquariumButtons;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -128,8 +136,6 @@ public class Main extends Application  {
 
         hbox.getChildren().addAll(combo_box);
 
-
-
         /*****************************************************************************/
         // Set up the Labels about Aquarium
         /*****************************************************************************/
@@ -140,26 +146,67 @@ public class Main extends Application  {
 
 
         /*****************************************************************************/
+        // Set up buttons for resizing the Aquarium
+        /*****************************************************************************/
+        Button thrbythr = new Button("3x3");
+        Button fourbyfive = new Button("4x5");
+        Button sixbyeight = new Button("6x8");
+
+        // action event
+        EventHandler<ActionEvent> thrEvent = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                currSize=0;
+                remakeGridPane(currSize, stage);
+            }
+        };
+
+        // action event
+        EventHandler<ActionEvent> fourEvent = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                currSize=1;
+                remakeGridPane(currSize, stage);
+            }
+        };
+
+        // action event
+        EventHandler<ActionEvent> sixEvent = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                currSize=2;
+                remakeGridPane(currSize, stage);
+            }
+        };
+
+        hbox.getChildren().addAll(thrbythr,fourbyfive,sixbyeight);
+
+
+        /*****************************************************************************/
         // Set up the Gridpane to be nested in the border pane
         /*****************************************************************************/
+        aquariumButtons = new ArrayList<Button>();
+        gridPane = new GridPane();
+        makeGridPane(0,stage);
 
-        // create the buttons to put in the gridpane
-        Button button1 = new Button("Button 1");
-        Button button2 = new Button("Button 2");
-        Button button3 = new Button("Button 3");
-        Button button4 = new Button("Button 4");
-        Button button5 = new Button("Button 5");
-        Button button6 = new Button("Button 6");
-        // create new gridpane
-        GridPane gridPane = new GridPane();
-        // add buttons to the gridpane
-        gridPane.add(button1, 0, 0, 1, 1);
-        gridPane.add(button2, 1, 0, 1, 1);
-        gridPane.add(button3, 2, 0, 1, 1);
-        gridPane.add(button4, 0, 1, 1, 1);
-        gridPane.add(button5, 1, 1, 1, 1);
-        gridPane.add(button6, 2, 1, 1, 1);
 
+//        // create the buttons to put in the gridpane
+//        Button button1 = new Button("None");
+//        Button button2 = new Button("None");
+//        Button button3 = new Button("None");
+//        Button button4 = new Button("None");
+//        Button button5 = new Button("None");
+//        Button button6 = new Button("None");
+//        // create new gridpane
+//        gridPane = new GridPane();
+//        // add buttons to the gridpane
+//        gridPane.add(button1, 0, 0, 1, 1);
+//        gridPane.add(button2, 1, 0, 1, 1);
+//        gridPane.add(button3, 2, 0, 1, 1);
+//        gridPane.add(button4, 0, 1, 1, 1);
+//        gridPane.add(button5, 1, 1, 1, 1);
+//        gridPane.add(button6, 2, 1, 1, 1);
+//
         /*****************************************************************************/
         //Instantiating the BorderPane class
         /*****************************************************************************/
@@ -173,7 +220,7 @@ public class Main extends Application  {
         /*****************************************************************************/
         //Creating a scene object
         /*****************************************************************************/
-        Scene scene = new Scene(bPane,WIDTH,HIEGHT);
+        scene = new Scene(bPane,WIDTH,HIEGHT);
 
         //Setting title to the Stage
         stage.setTitle("BorderPane Example");
@@ -186,6 +233,38 @@ public class Main extends Application  {
         stage.setScene(scene);
 
         //Displaying the contents of the stage
+        stage.show();
+    }
+
+    public void makeGridPane(int size,Stage stage){
+        aquariumButtons.clear();
+        int r, c;
+        if(size==0) r=c=3;
+        else if(size==1) { r=4; c=5; }
+        else { r=6; c=8; }
+        for(int i=0;i<r;i++) {
+            for (int j = 0; j < c; j++) {
+                aquariumButtons.add(new Button("None"));
+                gridPane.add(aquariumButtons.get(aquariumButtons.size() - 1), i, j, 1, 1);
+            }
+        }
+        //stage.setScene(scene);
+        //stage.show();
+    }
+
+    public void remakeGridPane(int size,Stage stage){
+        aquariumButtons.clear();
+        int r, c;
+        if(size==0) r=c=3;
+        else if(size==1) { r=4; c=5; }
+        else { r=6; c=8; }
+        for(int i=0;i<r;i++) {
+            for (int j = 0; j < c; j++) {
+                aquariumButtons.add(new Button("None"));
+                gridPane.add(aquariumButtons.get(aquariumButtons.size() - 1), i, j, 1, 1);
+            }
+        }
+        stage.setScene(scene);
         stage.show();
     }
 
