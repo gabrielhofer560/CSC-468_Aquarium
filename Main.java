@@ -26,7 +26,6 @@ import java.util.ArrayList;
 
 /*
     Panes
-
     http://tutorials.jenkov.com/javafx/gridpane.html
     https://stackoverflow.com/questions/33339427/javafx-have-multiple-panes-in-one-scene
     https://www.tutorialspoint.com/javafx/layout_borderpane.htm
@@ -34,15 +33,12 @@ import java.util.ArrayList;
     https://www.tutorialspoint.com/javafx/layout_gridpane.htm
 
     Event Handlers
-
     https://www.javatpoint.com/javafx-event-handlers
 
     ComboBox
-
     https://www.geeksforgeeks.org/javafx-combobox-with-examples/
 
     Set minimum size of Stage
-
     https://stackoverflow.com/questions/35864241/how-to-set-minimum-size-of-container-in-fxml
 
 
@@ -50,6 +46,9 @@ import java.util.ArrayList;
 public class Main extends Application  {
     private int WIDTH = 500;
     private int HIEGHT = 500;
+    private int comboBoxFish = 0;
+    private int aquariumWidth = 3;
+    private int aquariumHeight = 3;
 
     ArrayList<Fish> Aquarium;
 
@@ -59,10 +58,11 @@ public class Main extends Application  {
 
     @Override
     public void start(Stage stage) {
-        /*****************************************************************************/
-        // Create Hbox for bottom of border pane. Create Vbox for left of border pane.
-        /*****************************************************************************/
-        //Instantiating the HBox class
+//        /*****************************************************************************/
+//        // Create Hbox for bottom of border pane. Create Vbox for left of border pane.
+//        /*****************************************************************************/
+//        //Instantiating the HBox class
+//
         HBox hbox = new HBox();
         VBox vbox = new VBox();
 
@@ -71,32 +71,45 @@ public class Main extends Application  {
         // Set up the Label and Textview for Feed Amount
         // https://www.geeksforgeeks.org/javafx-textfield/
         /*****************************************************************************/
-        Label feedLabel = new Label("Feed");
-        TextField b = new TextField("some number");
+        Label feedLabel = new Label("Feed Amount");
+        TextField tf = new TextField("some number");
 
         // action event
-        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() {
+        EventHandler<ActionEvent> feedFishEvent = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
                 // call function to feed the fish!!!!
-                // need to define funciton first !!!
+                // need to define function first !!!
             }
         };
+        vbox.getChildren().addAll(feedLabel, tf);
 
 
-        /*****************************************************************************/
-        // Set up New Day button
-        /*****************************************************************************/
-
-        /*****************************************************************************/
-        // Set up CombBox
-        /*****************************************************************************/
-        // Weekdays
-        String fish_type[] = { "Angelfish", "Goldfish" };
-        // Create a combo box
-        ComboBox combo_box = new ComboBox(FXCollections .observableArrayList(fish_type));
-        hbox.getChildren().addAll(combo_box);
-
+//        /*****************************************************************************/
+//        // Set up New Day button
+//        // https://www.geeksforgeeks.org/javafx-button-with-examples/
+//        /*****************************************************************************/
+//        Button button = new Button("New Day");
+//
+//        // action event
+//        EventHandler<ActionEvent> newDayEvent = new EventHandler<ActionEvent>() {
+//            public void handle(ActionEvent e)
+//            {
+//                // call function to do something!!!
+//                // l.setText("   button   selected    ");
+//            }
+//        };
+//
+//
+//        /*****************************************************************************/
+//        // Set up CombBox
+//        /*****************************************************************************/
+//        // Weekdays
+//        String fish_type[] = { "Angelfish", "Goldfish" };
+//        // Create a combo box
+//        ComboBox combo_box = new ComboBox(FXCollections .observableArrayList(fish_type));
+//        hbox.getChildren().addAll(combo_box);
+//
 
         /*****************************************************************************/
         // Set up the Gridpane to be nested in the border pane
@@ -126,7 +139,7 @@ public class Main extends Application  {
 
         // put hbox on bottom border, vbox on left border, and gridpane in center
         bPane.setBottom(hbox);
-        bPane.setLeft(hbox);
+        bPane.setLeft(vbox);
         bPane.setCenter(gridPane);
 
         /*****************************************************************************/
@@ -148,10 +161,11 @@ public class Main extends Application  {
         stage.show();
     }
 
+
+
+    public void newDay(){}
+    public void feedFish(){}
+
 }
-
-
-
-
 
 
