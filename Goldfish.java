@@ -6,4 +6,6 @@ public class Goldfish {
     }
     public void decHealth(){
     }
+    public void feedFish(int amount){
+    }
 }

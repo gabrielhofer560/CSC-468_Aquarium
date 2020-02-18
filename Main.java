@@ -46,9 +46,11 @@ import java.util.ArrayList;
 public class Main extends Application  {
     private int WIDTH = 500;
     private int HIEGHT = 500;
-    private int comboBoxFish = 0;
+    private String comboBoxFish = "Goldfish";
     private int aquariumWidth = 3;
     private int aquariumHeight = 3;
+    private int feedAmount = 0;
+    private int DAY=0, FILLED=0, DIED=0;
 
     ArrayList<Fish> Aquarium;
 
@@ -78,38 +80,64 @@ public class Main extends Application  {
         EventHandler<ActionEvent> feedFishEvent = new EventHandler<ActionEvent>() {
             public void handle(ActionEvent e)
             {
+                feedLabel.setText(tf.getText());
                 // call function to feed the fish!!!!
                 // need to define function first !!!
             }
         };
-        vbox.getChildren().addAll(feedLabel, tf);
+        tf.setOnAction(feedFishEvent);
+        //vbox.getChildren().addAll(feedLabel, tf);
+
+        /*****************************************************************************/
+        // Set up New Day button
+        // https://www.geeksforgeeks.org/javafx-button-with-examples/
+        /*****************************************************************************/
+        Button newDayButton = new Button("New Day");
+
+        // action event
+        EventHandler<ActionEvent> newDayEvent = new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent e)
+            {
+                // call function to do something!!!
+                // l.setText("   button   selected    ");
+            }
+        };
+        newDayButton.setOnAction(newDayEvent);
+        vbox.getChildren().addAll(feedLabel, tf, newDayButton);
+
+        /*****************************************************************************/
+        // Set up CombBox
+        /*****************************************************************************/
+        // Weekdays
+        String fish_type[] = { "Angelfish", "Goldfish" };
+        // Create a combo box
+        ComboBox combo_box = new ComboBox(FXCollections .observableArrayList(fish_type));
+
+        // Create action event
+        EventHandler<ActionEvent> event =
+                new EventHandler<ActionEvent>() {
+                    public void handle(ActionEvent e)
+                    {
+                        // selected.setText(combo_box.getValue() + " selected");
+                        comboBoxFish = (String)combo_box.getValue();
+                    }
+                };
+
+        // Set on action
+        combo_box.setOnAction(event);
+
+        hbox.getChildren().addAll(combo_box);
 
 
-//        /*****************************************************************************/
-//        // Set up New Day button
-//        // https://www.geeksforgeeks.org/javafx-button-with-examples/
-//        /*****************************************************************************/
-//        Button button = new Button("New Day");
-//
-//        // action event
-//        EventHandler<ActionEvent> newDayEvent = new EventHandler<ActionEvent>() {
-//            public void handle(ActionEvent e)
-//            {
-//                // call function to do something!!!
-//                // l.setText("   button   selected    ");
-//            }
-//        };
-//
-//
-//        /*****************************************************************************/
-//        // Set up CombBox
-//        /*****************************************************************************/
-//        // Weekdays
-//        String fish_type[] = { "Angelfish", "Goldfish" };
-//        // Create a combo box
-//        ComboBox combo_box = new ComboBox(FXCollections .observableArrayList(fish_type));
-//        hbox.getChildren().addAll(combo_box);
-//
+
+        /*****************************************************************************/
+        // Set up the Labels about Aquarium
+        /*****************************************************************************/
+        Label day = new Label("Day: "+DAY);
+        Label filled = new Label("Filled: "+FILLED);
+        Label died = new Label("Died: "+DIED);
+        hbox.getChildren().addAll(day,filled,died);
+
 
         /*****************************************************************************/
         // Set up the Gridpane to be nested in the border pane
@@ -163,8 +191,18 @@ public class Main extends Application  {
 
 
 
-    public void newDay(){}
-    public void feedFish(){}
+//    public void newDay(){
+//        for(Fish f : Aquarium){
+//            f.incHunger();
+//            f.decHealth();
+//        }
+//    }
+//    public void feedFish(int amount){
+//        int amountPerFish = amount / Aquarium.size();
+//        for(Fish f : Aquarium){
+//            f.feedFish(amountPerFish);
+//        }
+//    }
 
 }
 

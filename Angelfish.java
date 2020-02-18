@@ -6,4 +6,6 @@ public class Angelfish {
     }
     public void decHealth(){
     }
+    public void feedFish(){
+    }
 }
