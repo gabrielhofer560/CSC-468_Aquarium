@@ -56,7 +56,7 @@ public class Main extends Application  {
     private Scene scene;
 
 
-    private ArrayList<Fish> aquarium;
+    private ArrayList<Fish> aquariumFish;
     private ArrayList<Button> aquariumButtons;
     private ArrayList<EventHandler<ActionEvent>> eventList;
     private ArrayList<ColumnConstraints> ccList;
@@ -69,14 +69,11 @@ public class Main extends Application  {
 
     @Override
     public void start(Stage stage) {
-//        /*****************************************************************************/
-//        // Create Hbox for bottom of border pane. Create Vbox for left of border pane.
-//        /*****************************************************************************/
-//        //Instantiating the HBox class
-//
+        /*****************************************************************************/
+        // Create Hbox for bottom of border pane. Create Vbox for left of border pane.
+        /*****************************************************************************/
         HBox hbox = new HBox();
         VBox vbox = new VBox();
-
 
         /*****************************************************************************/
         // Set up the Label and Textview for Feed Amount
@@ -84,35 +81,22 @@ public class Main extends Application  {
         /*****************************************************************************/
         Label feedLabel = new Label("Feed Amount");
         TextField tf = new TextField("some number");
-
-        // action event
-        EventHandler<ActionEvent> feedFishEvent = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
-                feedLabel.setText(tf.getText());
-                // call function to feed the fish!!!!
-                // need to define function first !!!
-            }
+        EventHandler<ActionEvent> feedFishEvent = e -> {
+            feedLabel.setText(tf.getText());
+            // call function to feed the fish!!!!
+            // need to define function first !!!
         };
         tf.setOnAction(feedFishEvent);
-        //vbox.getChildren().addAll(feedLabel, tf);
 
         /*****************************************************************************/
         // Set up New Day button
         // https://www.geeksforgeeks.org/javafx-button-with-examples/
         /*****************************************************************************/
         Button newDayButton = new Button("New Day");
-
-        // action event
-        EventHandler<ActionEvent> newDayEvent = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
-                // call function to do something!!!
-                // l.setText("   button   selected    ");
-            }
+        EventHandler<ActionEvent> newDayEvent = e -> {
+            // call function to do something!!!
         };
         newDayButton.setOnAction(newDayEvent);
-        //vbox.getChildren().addAll(feedLabel, tf, newDayButton);
 
         /*****************************************************************************/
         // Set up CombBox
@@ -121,30 +105,19 @@ public class Main extends Application  {
         String fish_type[] = { "Angelfish", "Goldfish" };
         // Create a combo box
         ComboBox combo_box = new ComboBox(FXCollections .observableArrayList(fish_type));
-
-        // Create action event
-        EventHandler<ActionEvent> event =
-                new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e)
-                    {
-                        // selected.setText(combo_box.getValue() + " selected");
-                        comboBoxFish = (String)combo_box.getValue();
-                    }
-                };
-
-        // Set on action
+        EventHandler<ActionEvent> event = e -> {
+                    comboBoxFish = (String)combo_box.getValue();
+        };
         combo_box.setOnAction(event);
-
         vbox.getChildren().addAll(combo_box,feedLabel,tf,newDayButton);
 
         /*****************************************************************************/
         // Set up the Labels about Aquarium
         /*****************************************************************************/
-        Label day = new Label("Day: "+DAY);
-        Label filled = new Label("Filled: "+FILLED);
-        Label died = new Label("Died: "+DIED);
+        Label day = new Label("Day: "+DAY+"\t\t\t\t");
+        Label filled = new Label("Filled: "+FILLED+"\t\t\t\t");
+        Label died = new Label("Died: "+DIED+"\t\t\t\t");
         hbox.getChildren().addAll(day,filled,died);
-
 
         /*****************************************************************************/
         // Set up buttons for resizing the Aquarium
@@ -153,31 +126,19 @@ public class Main extends Application  {
         Button fourbyfive = new Button("4x5");
         Button sixbyeight = new Button("6x8");
 
-        // action event
-        EventHandler<ActionEvent> thrEvent = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
-                currSize=0;
-                remakeGridPane(currSize, stage);
-            }
+        EventHandler<ActionEvent> thrEvent = e -> {
+            currSize=0;
+            remakeGridPane(currSize, stage);
         };
 
-        // action event
-        EventHandler<ActionEvent> fourEvent = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
-                currSize=1;
-                remakeGridPane(currSize, stage);
-            }
+        EventHandler<ActionEvent> fourEvent = e -> {
+            currSize=1;
+            remakeGridPane(currSize, stage);
         };
 
-        // action event
-        EventHandler<ActionEvent> sixEvent = new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent e)
-            {
-                currSize=2;
-                remakeGridPane(currSize, stage);
-            }
+        EventHandler<ActionEvent> sixEvent = e -> {
+            currSize=2;
+            remakeGridPane(currSize, stage);
         };
         thrbythr.setOnAction(thrEvent);
         fourbyfive.setOnAction(fourEvent);
@@ -192,26 +153,8 @@ public class Main extends Application  {
         gridPane = new GridPane();
         makeGridPane(0,stage);
 
-
-//        // create the buttons to put in the gridpane
-//        Button button1 = new Button("None");
-//        Button button2 = new Button("None");
-//        Button button3 = new Button("None");
-//        Button button4 = new Button("None");
-//        Button button5 = new Button("None");
-//        Button button6 = new Button("None");
-//        // create new gridpane
-//        gridPane = new GridPane();
-//        // add buttons to the gridpane
-//        gridPane.add(button1, 0, 0, 1, 1);
-//        gridPane.add(button2, 1, 0, 1, 1);
-//        gridPane.add(button3, 2, 0, 1, 1);
-//        gridPane.add(button4, 0, 1, 1, 1);
-//        gridPane.add(button5, 1, 1, 1, 1);
-//        gridPane.add(button6, 2, 1, 1, 1);
-//
         /*****************************************************************************/
-        //Instantiating the BorderPane class
+        // Instantiating the BorderPane class. Add stuff to the border and center.
         /*****************************************************************************/
         BorderPane bPane = new BorderPane();
 
@@ -250,17 +193,17 @@ public class Main extends Application  {
         rcList = new ArrayList<RowConstraints>();
         eventList = new ArrayList<EventHandler<ActionEvent>>();
 
-        for(int i=0;i<c;i++){
+        for(int i=0;i<r+2;i++){
             ColumnConstraints cc=new ColumnConstraints();
-            cc.setPercentWidth(90/c);
+            cc.setPercentWidth(100/r);
             cc.setFillWidth(true);
             cc.setHgrow(Priority.ALWAYS);
             ccList.add(cc);
         }
         gridPane.getColumnConstraints().addAll(ccList);
-        for(int i=0;i<r;i++){
+        for(int i=0;i<c+2;i++){
             RowConstraints rc=new RowConstraints();
-            rc.setPercentHeight(90/r);
+            rc.setPercentHeight(100/c);
             rc.setFillHeight(true);
             rc.setVgrow(Priority.ALWAYS);
             rcList.add(rc);
@@ -271,15 +214,13 @@ public class Main extends Application  {
             for (int j = 0; j < c; j++) {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                aquariumButtons.add(b1);
-                // action event
-                eventList.add(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e)
-                    {
-                        // do something
-                    }
+                b1.setMinHeight(30);
+
+                eventList.add(e -> {
+                    // do something
                 });
-                aquariumButtons.get(i*r+j).setOnAction(eventList.get(eventList.size()-1));
+                b1.setOnAction(eventList.get(eventList.size()-1));
+                aquariumButtons.add(b1);
                 gridPane.add(b1, i, j, 1, 1);
             }
         }
@@ -301,17 +242,17 @@ public class Main extends Application  {
         gridPane.getColumnConstraints().clear();
         gridPane.getRowConstraints().clear();
 
-        for(int i=0;i<c;i++){
+        for(int i=0;i<r+1;i++){
             ColumnConstraints cc=new ColumnConstraints();
-            cc.setPercentWidth(90/c);
+            cc.setPercentWidth(100/r);
             cc.setFillWidth(true);
             cc.setHgrow(Priority.ALWAYS);
             ccList.add(cc);
         }
         gridPane.getColumnConstraints().addAll(ccList);
-        for(int i=0;i<r;i++){
+        for(int i=0;i<c+1;i++){
             RowConstraints rc=new RowConstraints();
-            rc.setPercentHeight(90/r);
+            rc.setPercentHeight(100/c);
             rc.setFillHeight(true);
             rc.setVgrow(Priority.ALWAYS);
             rcList.add(rc);
@@ -322,15 +263,13 @@ public class Main extends Application  {
             for (int j = 0; j < c; j++) {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-                aquariumButtons.add(b1);
+                b1.setMinHeight(30);
                 // action event
-                eventList.add(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent e)
-                    {
-                        // do something
-                    }
+                eventList.add(e -> {
+                    // do something
                 });
-                aquariumButtons.get(i*r+j).setOnAction(eventList.get(eventList.size()-1));
+                b1.setOnAction(eventList.get(eventList.size()-1));
+                aquariumButtons.add(b1);
                 gridPane.add(b1, i, j, 1, 1);
             }
         }
