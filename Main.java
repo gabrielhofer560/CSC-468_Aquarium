@@ -15,12 +15,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
 import javafx.event.ActionEvent;
 
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
     Panes
@@ -41,7 +42,6 @@ import java.util.ArrayList;
 
     Buttons
     http://tutorials.jenkov.com/javafx/button.html#button-size
-
  */
 public class Main extends Application  {
     private int WIDTH = 500;
@@ -63,7 +63,7 @@ public class Main extends Application  {
     private ArrayList<EventHandler<ActionEvent>> eventList;
     private ArrayList<ColumnConstraints> ccList;
     private ArrayList<RowConstraints> rcList;
-
+    private HashMap<Button,Fish> buttonToFish;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -166,7 +166,17 @@ public class Main extends Application  {
         ccList = new ArrayList<ColumnConstraints>();
         rcList = new ArrayList<RowConstraints>();
         eventList = new ArrayList<EventHandler<ActionEvent>>();
+        aquariumFish = new ArrayList<Fish>();
+        buttonToFish = new HashMap<Button,Fish>();
     }
+
+
+
+    public void clicked(){
+
+    }
+
+
 
     public void makeGridPane(int size,Stage stage){
         aquariumButtons.clear();
@@ -197,12 +207,20 @@ public class Main extends Application  {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
+                Fish f1 = new None();
 
                 eventList.add(e -> {
-                    // do something
+                    if(comboBoxFish=="Goldfish") {
+                        buttonToFish.put(b1, new Goldfish());
+                        b1.setText("Goldfish");
+                    } else if(comboBoxFish=="Angelfish") {
+                        buttonToFish.put(b1, new Angelfish());
+                        b1.setText("Angelfish");
+                    }
                 });
                 b1.setOnAction(eventList.get(eventList.size()-1));
                 aquariumButtons.add(b1);
+                aquariumFish.add(f1);
                 gridPane.add(b1, i, j, 1, 1);
             }
         }
@@ -228,7 +246,7 @@ public class Main extends Application  {
 
         for(int i=0;i<r+1;i++){
             ColumnConstraints cc=new ColumnConstraints();
-            cc.setPercentWidth(100/r);
+            cc.setPercentWidth(100.0/r);
             cc.setFillWidth(true);
             cc.setHgrow(Priority.ALWAYS);
             ccList.add(cc);
@@ -236,7 +254,7 @@ public class Main extends Application  {
         gridPane.getColumnConstraints().addAll(ccList);
         for(int i=0;i<c+1;i++){
             RowConstraints rc=new RowConstraints();
-            rc.setPercentHeight(100/c);
+            rc.setPercentHeight(100.0/c);
             rc.setFillHeight(true);
             rc.setVgrow(Priority.ALWAYS);
             rcList.add(rc);
@@ -248,11 +266,19 @@ public class Main extends Application  {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
+                Fish f1 = new None();
                 eventList.add(e -> {
-                    // do something
+                    if(comboBoxFish=="Goldfish") {
+                        buttonToFish.put(b1, new Goldfish());
+                        b1.setText("Goldfish");
+                    } else if(comboBoxFish=="Angelfish") {
+                        buttonToFish.put(b1, new Angelfish());
+                        b1.setText("Angelfish");
+                    }
                 });
                 b1.setOnAction(eventList.get(eventList.size()-1));
                 aquariumButtons.add(b1);
+                aquariumFish.add(f1);
                 gridPane.add(b1, i, j, 1, 1);
             }
         }
