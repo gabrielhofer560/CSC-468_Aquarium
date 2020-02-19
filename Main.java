@@ -54,6 +54,9 @@ public class Main extends Application  {
     private int currSize=0;
     private GridPane gridPane;
     private Scene scene;
+    private HBox hbox;
+    private VBox vbox;
+
 
     private ArrayList<Fish> aquariumFish;
     private ArrayList<Button> aquariumButtons;
@@ -68,14 +71,10 @@ public class Main extends Application  {
 
     @Override
     public void start(Stage stage) {
+        /*****************************************************************************/
+        // Initialize container variables
+        /*****************************************************************************/
         init();
-
-
-        /*****************************************************************************/
-        // Create Hbox for bottom of border pane. Create Vbox for left of border pane.
-        /*****************************************************************************/
-        HBox hbox = new HBox();
-        VBox vbox = new VBox();
 
         /*****************************************************************************/
         // Set up the Label and Textview for Feed Amount
@@ -123,9 +122,9 @@ public class Main extends Application  {
         Button thrbythr = new Button("3x3");
         Button fourbyfive = new Button("4x5");
         Button sixbyeight = new Button("6x8");
-        EventHandler<ActionEvent> thrEvent = e -> { remakeGridPane(currSize, stage); };
-        EventHandler<ActionEvent> fourEvent = e -> { remakeGridPane(currSize, stage); };
-        EventHandler<ActionEvent> sixEvent = e -> { remakeGridPane(currSize, stage); };
+        EventHandler<ActionEvent> thrEvent = e -> { remakeGridPane(0, stage); };
+        EventHandler<ActionEvent> fourEvent = e -> { remakeGridPane(1, stage); };
+        EventHandler<ActionEvent> sixEvent = e -> { remakeGridPane(2, stage); };
         thrbythr.setOnAction(thrEvent);
         fourbyfive.setOnAction(fourEvent);
         sixbyeight.setOnAction(sixEvent);
@@ -134,14 +133,12 @@ public class Main extends Application  {
         /*****************************************************************************/
         // Set up the Gridpane to be nested in the border pane
         /*****************************************************************************/
-        gridPane = new GridPane();
         makeGridPane(0,stage);
 
         /*****************************************************************************/
         // Instantiating the BorderPane class. Add stuff to the border and center.
         /*****************************************************************************/
         BorderPane bPane = new BorderPane();
-        // put hbox on bottom border, vbox on left border, and gridpane in center
         bPane.setBottom(hbox);
         bPane.setLeft(vbox);
         bPane.setCenter(gridPane);
@@ -162,6 +159,9 @@ public class Main extends Application  {
     }
 
     public void init(){
+        hbox = new HBox();
+        vbox = new VBox();
+        gridPane = new GridPane();
         aquariumButtons = new ArrayList<Button>();
         ccList = new ArrayList<ColumnConstraints>();
         rcList = new ArrayList<RowConstraints>();
@@ -248,7 +248,6 @@ public class Main extends Application  {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
-                // action event
                 eventList.add(e -> {
                     // do something
                 });
