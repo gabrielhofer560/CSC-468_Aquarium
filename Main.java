@@ -55,7 +55,6 @@ public class Main extends Application  {
     private GridPane gridPane;
     private Scene scene;
 
-
     private ArrayList<Fish> aquariumFish;
     private ArrayList<Button> aquariumButtons;
     private ArrayList<EventHandler<ActionEvent>> eventList;
@@ -69,6 +68,9 @@ public class Main extends Application  {
 
     @Override
     public void start(Stage stage) {
+        init();
+
+
         /*****************************************************************************/
         // Create Hbox for bottom of border pane. Create Vbox for left of border pane.
         /*****************************************************************************/
@@ -101,13 +103,9 @@ public class Main extends Application  {
         /*****************************************************************************/
         // Set up CombBox
         /*****************************************************************************/
-        // fish types
         String fish_type[] = { "Angelfish", "Goldfish" };
-        // Create a combo box
         ComboBox combo_box = new ComboBox(FXCollections .observableArrayList(fish_type));
-        EventHandler<ActionEvent> event = e -> {
-                    comboBoxFish = (String)combo_box.getValue();
-        };
+        EventHandler<ActionEvent> event = e -> { comboBoxFish = (String)combo_box.getValue(); };
         combo_box.setOnAction(event);
         vbox.getChildren().addAll(combo_box,feedLabel,tf,newDayButton);
 
@@ -125,31 +123,17 @@ public class Main extends Application  {
         Button thrbythr = new Button("3x3");
         Button fourbyfive = new Button("4x5");
         Button sixbyeight = new Button("6x8");
-
-        EventHandler<ActionEvent> thrEvent = e -> {
-            currSize=0;
-            remakeGridPane(currSize, stage);
-        };
-
-        EventHandler<ActionEvent> fourEvent = e -> {
-            currSize=1;
-            remakeGridPane(currSize, stage);
-        };
-
-        EventHandler<ActionEvent> sixEvent = e -> {
-            currSize=2;
-            remakeGridPane(currSize, stage);
-        };
+        EventHandler<ActionEvent> thrEvent = e -> { remakeGridPane(currSize, stage); };
+        EventHandler<ActionEvent> fourEvent = e -> { remakeGridPane(currSize, stage); };
+        EventHandler<ActionEvent> sixEvent = e -> { remakeGridPane(currSize, stage); };
         thrbythr.setOnAction(thrEvent);
         fourbyfive.setOnAction(fourEvent);
         sixbyeight.setOnAction(sixEvent);
         hbox.getChildren().addAll(thrbythr,fourbyfive,sixbyeight);
 
-
         /*****************************************************************************/
         // Set up the Gridpane to be nested in the border pane
         /*****************************************************************************/
-        aquariumButtons = new ArrayList<Button>();
         gridPane = new GridPane();
         makeGridPane(0,stage);
 
@@ -157,7 +141,6 @@ public class Main extends Application  {
         // Instantiating the BorderPane class. Add stuff to the border and center.
         /*****************************************************************************/
         BorderPane bPane = new BorderPane();
-
         // put hbox on bottom border, vbox on left border, and gridpane in center
         bPane.setBottom(hbox);
         bPane.setLeft(vbox);
@@ -167,19 +150,22 @@ public class Main extends Application  {
         //Creating a scene object
         /*****************************************************************************/
         scene = new Scene(bPane,WIDTH,HIEGHT);
-
         //Setting title to the Stage
         stage.setTitle("BorderPane Example");
-
         // Set Minimum width and height of the stage (in writeup)
         stage.setMinWidth(700);
         stage.setMinHeight(600);
-
         //Adding scene to the stage
         stage.setScene(scene);
-
         //Displaying the contents of the stage
         stage.show();
+    }
+
+    public void init(){
+        aquariumButtons = new ArrayList<Button>();
+        ccList = new ArrayList<ColumnConstraints>();
+        rcList = new ArrayList<RowConstraints>();
+        eventList = new ArrayList<EventHandler<ActionEvent>>();
     }
 
     public void makeGridPane(int size,Stage stage){
@@ -188,10 +174,6 @@ public class Main extends Application  {
         if(size==0) r=c=3;
         else if(size==1) { r=4; c=5; }
         else { r=6; c=8; }
-
-        ccList = new ArrayList<ColumnConstraints>();
-        rcList = new ArrayList<RowConstraints>();
-        eventList = new ArrayList<EventHandler<ActionEvent>>();
 
         for(int i=0;i<r+2;i++){
             ColumnConstraints cc=new ColumnConstraints();
@@ -227,6 +209,8 @@ public class Main extends Application  {
     }
 
     public void remakeGridPane(int size,Stage stage){
+        currSize=size;
+
         gridPane.getChildren().clear();
         aquariumButtons.clear();
 
