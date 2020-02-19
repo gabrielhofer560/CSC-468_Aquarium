@@ -51,7 +51,7 @@ public class Main extends Application  {
     private int aquariumHeight = 3;
     private int feedAmount = 0;
     private int DAY=0, FILLED=0, DIED=0;
-    private int currSize=0;
+    private int gridSize=0;
     private GridPane gridPane;
     private Scene scene;
     private HBox hbox;
@@ -86,6 +86,13 @@ public class Main extends Application  {
             feedLabel.setText(tf.getText());
             // call function to feed the fish!!!!
             // need to define function first !!!
+            int amt = Integer.parseInt(tf.getText())/fishCount();
+            aquariumFish.forEach((x)->{
+                x.feedFish(amt);
+            });
+            aquariumButtons.forEach((x)->{
+                // update button?
+            });
         };
         tf.setOnAction(feedFishEvent);
 
@@ -170,14 +177,6 @@ public class Main extends Application  {
         buttonToFish = new HashMap<Button,Fish>();
     }
 
-
-
-    public void clicked(){
-
-    }
-
-
-
     public void makeGridPane(int size,Stage stage){
         aquariumButtons.clear();
         int r, c;
@@ -226,8 +225,13 @@ public class Main extends Application  {
         }
     }
 
+    /******************************************************************************/
+    // call remakeGridPane when resize button is clicked
+    // http://tutorials.jenkov.com/javafx/textarea.html
+    /******************************************************************************/
+
     public void remakeGridPane(int size,Stage stage){
-        currSize=size;
+        gridSize=size;
 
         gridPane.getChildren().clear();
         aquariumButtons.clear();
@@ -286,20 +290,27 @@ public class Main extends Application  {
         stage.show();
     }
 
+    /*********************************************************************************/
+    // fish count
+    /*********************************************************************************/
+    private int fishCount(){
+        if(gridSize==0) return 9;
+        if(gridSize==1) return 20;
+        return 48;
+    }
 
-
-//    public void newDay(){
-//        for(Fish f : Aquarium){
-//            f.incHunger();
-//            f.decHealth();
-//        }
-//    }
-//    public void feedFish(int amount){
-//        int amountPerFish = amount / Aquarium.size();
-//        for(Fish f : Aquarium){
-//            f.feedFish(amountPerFish);
-//        }
-//    }
+    //    public void newDay(){
+    //        for(Fish f : Aquarium){
+    //            f.incHunger();
+    //            f.decHealth();
+    //        }
+    //    }
+    //    public void feedFish(int amount){
+    //        int amountPerFish = amount / Aquarium.size();
+    //        for(Fish f : Aquarium){
+    //            f.feedFish(amountPerFish);
+    //        }
+    //    }
 
 }
 
