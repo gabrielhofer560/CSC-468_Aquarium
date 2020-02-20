@@ -23,6 +23,7 @@ package sample;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -172,6 +173,7 @@ public class Main extends Application  {
         buttonToFish = new HashMap<Button,Fish>();
         comboBoxFish="Goldfish";
         buttonToType= new HashMap<Button,String>();
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
     }
 
     /******************************************************************************/
