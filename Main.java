@@ -34,7 +34,6 @@ import javafx.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class Main extends Application  {
     private int WIDTH = 700;
     private int HIEGHT = 600;
@@ -53,12 +52,12 @@ public class Main extends Application  {
     private ArrayList<ColumnConstraints> ccList;
     private ArrayList<RowConstraints> rcList;
     private HashMap<Button,Fish> buttonToFish;
+    private HashMap<Fish,String> fishToType;
 
     public static void main(String[] args) {
         Application.launch(args);
     }
 
-    @Override
     public void start(Stage stage) {
         /*****************************************************************************/
         // Initialize container variables
@@ -70,18 +69,15 @@ public class Main extends Application  {
         // https://www.geeksforgeeks.org/javafx-textfield/
         /*****************************************************************************/
         Label feedLabel = new Label("Feed Amount");
-        TextField tf = new TextField("some number");
+        TextField tf = new TextField("enter number");
         EventHandler<ActionEvent> feedFishEvent = e -> {
             feedLabel.setText(tf.getText());
-            // call function to feed the fish!!!!
-            // need to define function first !!!
             int amt = Integer.parseInt(tf.getText())/fishCount();
             aquariumFish.forEach((x)->{
                 x.feedFish(amt);
             });
             buttonToFish.forEach((b,f)->{
-                b.setText("your mom!");
-                b.setText(comboBoxFish+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
+                b.setText(fishToType.get(f)+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
             });
         };
         tf.setOnAction(feedFishEvent);
@@ -100,7 +96,8 @@ public class Main extends Application  {
                 x.newDay();
             });
             buttonToFish.forEach((b,f)->{
-                b.setText(comboBoxFish+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
+                if(f.getHealth()<=0) b.setText("None");
+                else b.setText(fishToType.get(f)+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
             });
         };
         newDayButton.setOnAction(newDayEvent);
@@ -178,6 +175,7 @@ public class Main extends Application  {
         aquariumFish = new ArrayList<Fish>();
         buttonToFish = new HashMap<Button,Fish>();
         comboBoxFish="Goldfish";
+        fishToType= new HashMap<Fish,String>();
     }
 
     /******************************************************************************/
@@ -216,16 +214,19 @@ public class Main extends Application  {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
-                Fish f1;
-                if(comboBoxFish=="Goldfish") f1=new Goldfish();
-                else f1=new Angelfish();
+
                 eventList.add(e -> {
+                    Fish f1;
+                    if(comboBoxFish=="Goldfish") f1 = new Goldfish();
+                    else f1 = new Angelfish();
+                    fishToType.put(f1, comboBoxFish);
+                    aquariumFish.add(f1);
+
                     buttonToFish.put(b1,f1);
                     b1.setText(comboBoxFish+"\nHealth: "+f1.getHealth()+"\nHunger: "+f1.getHunger());
                 });
                 b1.setOnAction(eventList.get(eventList.size()-1));
                 aquariumButtons.add(b1);
-                aquariumFish.add(f1);
                 gridPane.add(b1, i, j, 1, 1);
             }
         }
@@ -277,10 +278,14 @@ public class Main extends Application  {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
-                Fish f1;
-                if(comboBoxFish=="Goldfish") f1=new Goldfish();
-                else f1=new Angelfish();
+
                 eventList.add(e -> {
+                    Fish f1;
+                    if(comboBoxFish=="Goldfish") f1=new Goldfish();
+                    else f1=new Angelfish();
+                    fishToType.put(f1, comboBoxFish);
+                    aquariumFish.add(f1);
+
                     if(comboBoxFish=="Goldfish") {
                         buttonToFish.put(b1,f1);
                         b1.setText("Goldfish\n"+"Health: "+f1.getHealth()+"\nHunger: "+f1.getHunger());
@@ -291,14 +296,12 @@ public class Main extends Application  {
                 });
                 b1.setOnAction(eventList.get(eventList.size()-1));
                 aquariumButtons.add(b1);
-                aquariumFish.add(f1);
                 gridPane.add(b1, i, j, 1, 1);
             }
         }
         stage.setScene(scene);
         stage.show();
     }
-
 
     /*********************************************************************************/
     // fish count
@@ -308,20 +311,6 @@ public class Main extends Application  {
         if(gridSize==1) return 20;
         return 48;
     }
-
-    //    public void newDay(){
-    //        for(Fish f : Aquarium){
-    //            f.incHunger();
-    //            f.decHealth();
-    //        }
-    //    }
-    //    public void feedFish(int amount){
-    //        int amountPerFish = amount / Aquarium.size();
-    //        for(Fish f : Aquarium){
-    //            f.feedFish(amountPerFish);
-    //        }
-    //    }
-
 }
 
 
