@@ -45,6 +45,7 @@ public class Main extends Application  {
     private Scene scene;
     private HBox hbox;
     private VBox vbox;
+    private Label dayFilledDied;
 
     private ArrayList<Fish> aquariumFish;
     private ArrayList<Button> aquariumButtons;
@@ -79,7 +80,8 @@ public class Main extends Application  {
                 x.feedFish(amt);
             });
             buttonToFish.forEach((b,f)->{
-                b.setText(comboBoxFish+"health: "+f.getHealth()+"\nhunger: "+f.getHunger());
+                b.setText("your mom!");
+                b.setText(comboBoxFish+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
             });
         };
         tf.setOnAction(feedFishEvent);
@@ -90,7 +92,16 @@ public class Main extends Application  {
         /*****************************************************************************/
         Button newDayButton = new Button("New Day");
         EventHandler<ActionEvent> newDayEvent = e -> {
-            // call function to do something!!!
+            DAY+=1;
+            dayFilledDied.setText("\t\t\t\t\t\tDay: "+DAY+
+                    "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
+                    "\t\t\t\t\t\t\t\t\t\t\t");
+            aquariumFish.forEach((x)->{
+                x.newDay();
+            });
+            buttonToFish.forEach((b,f)->{
+                b.setText(comboBoxFish+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
+            });
         };
         newDayButton.setOnAction(newDayEvent);
 
@@ -106,12 +117,10 @@ public class Main extends Application  {
         /*****************************************************************************/
         // Set up the Labels about Aquarium
         /*****************************************************************************/
-        Label day = new Label("\t\t\t\t\t\tDay: "+DAY+
+        dayFilledDied = new Label("\t\t\t\t\t\tDay: "+DAY+
                 "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
                 "\t\t\t\t\t\t\t\t\t\t\t");
-//        Label filled = new Label("Filled: "+FILLED+"\t\t\t\t");
-//        Label died = new Label("Died: "+DIED+"\t\t\t\t");
-        hbox.getChildren().addAll(day); //,filled,died);
+        hbox.getChildren().addAll(dayFilledDied);
 
         /*****************************************************************************/
         // Set up buttons for resizing the Aquarium
@@ -155,6 +164,9 @@ public class Main extends Application  {
         stage.show();
     }
 
+    /******************************************************************************/
+    // initialize variables
+    /******************************************************************************/
     public void init(){
         hbox = new HBox();
         vbox = new VBox();
@@ -168,6 +180,9 @@ public class Main extends Application  {
         comboBoxFish="Goldfish";
     }
 
+    /******************************************************************************/
+    // make grid pane
+    /******************************************************************************/
     public void makeGridPane(int size,Stage stage){
         aquariumButtons.clear();
         int r, c;
@@ -201,10 +216,11 @@ public class Main extends Application  {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
-                Fish f1 = new None();
-
+                Fish f1;
+                if(comboBoxFish=="Goldfish") f1=new Goldfish();
+                else f1=new Angelfish();
                 eventList.add(e -> {
-                    buttonToFish.put(b1, new Goldfish());
+                    buttonToFish.put(b1,f1);
                     b1.setText(comboBoxFish+"\nHealth: "+f1.getHealth()+"\nHunger: "+f1.getHunger());
                 });
                 b1.setOnAction(eventList.get(eventList.size()-1));
@@ -219,7 +235,6 @@ public class Main extends Application  {
     // call remakeGridPane when resize button is clicked
     // http://tutorials.jenkov.com/javafx/textarea.html
     /******************************************************************************/
-
     public void remakeGridPane(int size,Stage stage){
         gridSize=size;
         gridPane.getChildren().clear();
@@ -262,10 +277,12 @@ public class Main extends Application  {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
-                Fish f1 = new None();
+                Fish f1;
+                if(comboBoxFish=="Goldfish") f1=new Goldfish();
+                else f1=new Angelfish();
                 eventList.add(e -> {
                     if(comboBoxFish=="Goldfish") {
-                        buttonToFish.put(b1, new Goldfish());
+                        buttonToFish.put(b1,f1);
                         b1.setText("Goldfish\n"+"Health: "+f1.getHealth()+"\nHunger: "+f1.getHunger());
                     } else if(comboBoxFish=="Angelfish") {
                         buttonToFish.put(b1, new Angelfish());
