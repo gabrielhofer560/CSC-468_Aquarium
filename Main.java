@@ -71,8 +71,7 @@ public class Main extends Application  {
         Label feedLabel = new Label("Feed Amount");
         TextField tf = new TextField("enter number");
         EventHandler<ActionEvent> feedFishEvent = e -> {
-            feedLabel.setText(tf.getText());
-            int amt = Integer.parseInt(tf.getText())/fishCount();
+            int amt = Integer.parseInt(tf.getText())/FILLED;
             aquariumFish.forEach((x)->{
                 x.feedFish(amt);
             });
@@ -219,10 +218,10 @@ public class Main extends Application  {
                     if(comboBoxFish=="Goldfish") f1 = new Goldfish();
                     else f1 = new Angelfish();
                     buttonToType.put(b1, comboBoxFish);
-/*                    updateFilled();
+                    updateFilled();
                     dayFilledDied.setText("\t\t\t\t\t\tDay: "+DAY+
                             "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
-                            "\t\t\t\t\t\t\t\t\t\t\t");*/
+                            "\t\t\t\t\t\t\t\t\t\t\t");
                     aquariumFish.add(f1);
 
                     buttonToFish.put(b1,f1);
@@ -287,10 +286,10 @@ public class Main extends Application  {
                     if(comboBoxFish=="Goldfish") f1=new Goldfish();
                     else f1=new Angelfish();
                     buttonToType.put(b1, comboBoxFish);
-/*                    updateFilled();
+                    updateFilled();
                     dayFilledDied.setText("\t\t\t\t\t\tDay: "+DAY+
                             "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
-                            "\t\t\t\t\t\t\t\t\t\t\t");*/
+                            "\t\t\t\t\t\t\t\t\t\t\t");
                     aquariumFish.add(f1);
 
                     if(comboBoxFish=="Goldfish") {
@@ -308,15 +307,6 @@ public class Main extends Application  {
         }
         stage.setScene(scene);
         stage.show();
-    }
-
-    /*********************************************************************************/
-    // fish count
-    /*********************************************************************************/
-    private int fishCount(){
-        if(gridSize==0) return 9;
-        if(gridSize==1) return 20;
-        return 48;
     }
 
     /*********************************************************************************/
