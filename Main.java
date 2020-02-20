@@ -52,7 +52,7 @@ public class Main extends Application  {
     private ArrayList<ColumnConstraints> ccList;
     private ArrayList<RowConstraints> rcList;
     private HashMap<Button,Fish> buttonToFish;
-    private HashMap<Fish,String> fishToType;
+    private HashMap<Button,String> buttonToType;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -77,7 +77,7 @@ public class Main extends Application  {
                 x.feedFish(amt);
             });
             buttonToFish.forEach((b,f)->{
-                b.setText(fishToType.get(f)+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
+                b.setText(buttonToType.get(b)+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
             });
         };
         tf.setOnAction(feedFishEvent);
@@ -89,15 +89,14 @@ public class Main extends Application  {
         Button newDayButton = new Button("New Day");
         EventHandler<ActionEvent> newDayEvent = e -> {
             DAY+=1;
+            updateFilled();
             dayFilledDied.setText("\t\t\t\t\t\tDay: "+DAY+
                     "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
                     "\t\t\t\t\t\t\t\t\t\t\t");
-            aquariumFish.forEach((x)->{
-                x.newDay();
-            });
+            aquariumFish.forEach((x)->{ x.newDay(); });
             buttonToFish.forEach((b,f)->{
-                if(f.getHealth()<=0) b.setText("None");
-                else b.setText(fishToType.get(f)+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
+                if(f.getHealth()<=0) { b.setText("None"); DIED+=1; }
+                else b.setText(buttonToType.get(b)+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
             });
         };
         newDayButton.setOnAction(newDayEvent);
@@ -175,7 +174,7 @@ public class Main extends Application  {
         aquariumFish = new ArrayList<Fish>();
         buttonToFish = new HashMap<Button,Fish>();
         comboBoxFish="Goldfish";
-        fishToType= new HashMap<Fish,String>();
+        buttonToType= new HashMap<Button,String>();
     }
 
     /******************************************************************************/
@@ -219,7 +218,11 @@ public class Main extends Application  {
                     Fish f1;
                     if(comboBoxFish=="Goldfish") f1 = new Goldfish();
                     else f1 = new Angelfish();
-                    fishToType.put(f1, comboBoxFish);
+                    buttonToType.put(b1, comboBoxFish);
+/*                    updateFilled();
+                    dayFilledDied.setText("\t\t\t\t\t\tDay: "+DAY+
+                            "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
+                            "\t\t\t\t\t\t\t\t\t\t\t");*/
                     aquariumFish.add(f1);
 
                     buttonToFish.put(b1,f1);
@@ -283,7 +286,11 @@ public class Main extends Application  {
                     Fish f1;
                     if(comboBoxFish=="Goldfish") f1=new Goldfish();
                     else f1=new Angelfish();
-                    fishToType.put(f1, comboBoxFish);
+                    buttonToType.put(b1, comboBoxFish);
+/*                    updateFilled();
+                    dayFilledDied.setText("\t\t\t\t\t\tDay: "+DAY+
+                            "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
+                            "\t\t\t\t\t\t\t\t\t\t\t");*/
                     aquariumFish.add(f1);
 
                     if(comboBoxFish=="Goldfish") {
@@ -311,6 +318,18 @@ public class Main extends Application  {
         if(gridSize==1) return 20;
         return 48;
     }
+
+    /*********************************************************************************/
+    // calculate the number of cells that have fish in them
+    /*********************************************************************************/
+    public void updateFilled(){
+        FILLED=0;
+        buttonToType.forEach((b,t)->{
+            if(!t.equals("None"))
+                FILLED+=1;
+        });
+    }
+
 }
 
 
