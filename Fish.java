@@ -1,7 +1,8 @@
 package sample;
 
 public interface Fish {
-    void incHunger();
-    void decHealth();
+    boolean newDay();
     void feedFish(int amount);
+    int getHealth();
+    int getHunger();
 }

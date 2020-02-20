@@ -72,9 +72,7 @@ public class Main extends Application  {
         TextField tf = new TextField("enter number");
         EventHandler<ActionEvent> feedFishEvent = e -> {
             int amt = Integer.parseInt(tf.getText())/FILLED;
-            aquariumFish.forEach((x)->{
-                x.feedFish(amt);
-            });
+            aquariumFish.forEach((x)->{ x.feedFish(amt); });
             buttonToFish.forEach((b,f)->{
                 b.setText(buttonToType.get(b)+"\nHealth: "+f.getHealth()+"\nHunger: "+f.getHunger());
             });
@@ -185,11 +183,9 @@ public class Main extends Application  {
         if(size==0) r=c=3;
         else if(size==1) { r=4; c=5; }
         else { r=6; c=8; }
-
         FILLED=0;
         DIED=0;
         DAY=0;
-
         for(int i=0;i<r;i++){
             ColumnConstraints cc=new ColumnConstraints();
             cc.setPercentWidth(100.0/r);
@@ -206,13 +202,11 @@ public class Main extends Application  {
             rcList.add(rc);
         }
         gridPane.getRowConstraints().addAll(rcList);
-
         for(int i=0;i<r;i++) {
             for (int j = 0; j < c; j++) {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
-
                 eventList.add(e -> {
                     Fish f1;
                     if(comboBoxFish=="Goldfish") f1 = new Goldfish();
@@ -223,7 +217,6 @@ public class Main extends Application  {
                             "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
                             "\t\t\t\t\t\t\t\t\t\t\t");
                     aquariumFish.add(f1);
-
                     buttonToFish.put(b1,f1);
                     b1.setText(comboBoxFish+"\nHealth: "+f1.getHealth()+"\nHunger: "+f1.getHunger());
                 });
@@ -245,19 +238,15 @@ public class Main extends Application  {
         FILLED=0;
         DIED=0;
         DAY=0;
-
         ccList.clear();
         rcList.clear();
         eventList.clear();
-
         int r, c;
         if(size==0) r=c=3;
         else if(size==1) { r=4; c=5; }
         else { r=6; c=8; }
-
         gridPane.getColumnConstraints().clear();
         gridPane.getRowConstraints().clear();
-
         for(int i=0;i<r;i++){
             ColumnConstraints cc=new ColumnConstraints();
             cc.setPercentWidth(100.0/r);
@@ -274,13 +263,11 @@ public class Main extends Application  {
             rcList.add(rc);
         }
         gridPane.getRowConstraints().addAll(rcList);
-
         for(int i=0;i<r;i++) {
             for (int j = 0; j < c; j++) {
                 Button b1 = new Button("None");
                 b1.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
                 b1.setMinHeight(30);
-
                 eventList.add(e -> {
                     Fish f1;
                     if(comboBoxFish=="Goldfish") f1=new Goldfish();
@@ -291,7 +278,6 @@ public class Main extends Application  {
                             "\t\t\t\t\t\n\t\t\t\t\t\tFilled: "+FILLED+"\t\t\t\t\t\t\n\t\t\t\t\t\tDied: "+DIED+
                             "\t\t\t\t\t\t\t\t\t\t\t");
                     aquariumFish.add(f1);
-
                     if(comboBoxFish=="Goldfish") {
                         buttonToFish.put(b1,f1);
                         b1.setText("Goldfish\n"+"Health: "+f1.getHealth()+"\nHunger: "+f1.getHunger());
@@ -319,7 +305,6 @@ public class Main extends Application  {
                 FILLED+=1;
         });
     }
-
 }
 
 
